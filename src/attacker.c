@@ -19,6 +19,8 @@
 void set_initial_attacker_position(position_t attacker_position);
 void set_field_height();
 
+bool will_move_hit_wall(direction_t dir, position_t attacker_position);
+
 /*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
@@ -53,6 +55,13 @@ void set_initial_attacker_position(position_t attacker_position) {
 
 void set_field_height() {
   field_height = initial_attacker_position.i*2;
+}
+
+bool will_move_hit_wall(direction_t dir, position_t attacker_position) {
+  // Check if move will hit upper or lower walls
+  size_t new_i = attacker_position.i + dir.i;
+  if (new_i >= field_height || new_i <= 0) return true;
+  return false;
 }
 
 /*----------------------------------------------------------------------------*/
