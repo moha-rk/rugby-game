@@ -23,8 +23,7 @@ direction_t get_next_defender_move(
   position_t last_position,
   direction_t last_move);
 
-bool position_equals(position_t p1, position_t p2);
-bool direction_equals(direction_t d1, direction_t d2);
+bool equal_directions(direction_t d1, direction_t d2);
 bool tried_to_move(direction_t move);
 size_t difference_between_positions(size_t s1, size_t s2);
 
@@ -88,8 +87,8 @@ direction_t get_next_defender_move(
 
   //If the defender stayed in the same position and is trying to make the same move,
   //we have to make a different one
-  if (position_equals(defender_position, last_position) && tried_to_move(last_move)
-      && direction_equals(last_move, current_move)) {
+  if (equal_positions(defender_position, last_position) && tried_to_move(last_move)
+      && equal_directions(last_move, current_move)) {
     if (current_move.i == 0) {
       current_move.j = 0;
     }
@@ -115,11 +114,7 @@ size_t difference_between_positions(size_t s1, size_t s2) {
   return s2 - s1;
 }
 
-bool position_equals(position_t p1, position_t p2) {
-  return (p1.i == p2.i && p1.j == p2.j);
-}
-
-bool direction_equals(direction_t d1, direction_t d2) {
+bool equal_directions(direction_t d1, direction_t d2) {
   return (d1.i == d2.i && d1.j == d2.j);
 }
 
