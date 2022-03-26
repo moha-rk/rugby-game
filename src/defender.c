@@ -37,13 +37,14 @@ direction_t execute_defender_strategy(
   static direction_t last_move = DIR_STAY;
   static position_t last_position = INVALID_POSITION;
 
-  if (equal_positions(last_position, defender_position)) {
+  if (equal_positions(last_position, (position_t) INVALID_POSITION)) {
     last_position = defender_position;
   }
   position_t hack_attacker_position = get_attacker_position_hack(attacker_spy);
   direction_t next_move = 
     get_next_defender_move(hack_attacker_position, defender_position, last_position, last_move);
   last_move = next_move;
+  last_position = defender_position;
   return next_move;
 }
 
