@@ -16,6 +16,8 @@
 /*                          PRIVATE FUNCTIONS HEADERS                         */
 /*----------------------------------------------------------------------------*/
 
+position_t get_defender_position_hack(Spy defender_spy);
+
 void set_initial_attacker_position(position_t attacker_position);
 void set_field_height();
 
@@ -47,6 +49,13 @@ direction_t execute_attacker_strategy(
 /*----------------------------------------------------------------------------*/
 /*                             PRIVATE FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
+
+position_t get_defender_position_hack(Spy defender_spy) {
+  if (defender_spy == NULL) return (position_t) { 0, 0 };
+  
+  Item defender_item = (Item) (*(long int*)defender_spy);
+  return get_item_position(defender_item);
+}
 
 void set_initial_attacker_position(position_t attacker_position) {
   initial_attacker_position.i = attacker_position.i;
