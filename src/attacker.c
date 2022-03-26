@@ -24,26 +24,32 @@ void set_field_height();
 bool will_move_hit_wall(direction_t dir, position_t attacker_position);
 
 /*----------------------------------------------------------------------------*/
-/*                              PUBLIC FUNCTIONS                              */
+/*                              PRIVATE VARIABLES                             */
 /*----------------------------------------------------------------------------*/
 
 position_t initial_attacker_position = {0, 0};
 size_t field_height = 0;
 
-bool first_round = true;
+bool first_attacker_round = true;
+
+/*----------------------------------------------------------------------------*/
+/*                              PUBLIC FUNCTIONS                              */
+/*----------------------------------------------------------------------------*/
 
 direction_t execute_attacker_strategy(
     position_t attacker_position, Spy defender_spy) {
   // TODO: unused parameter, remove this line later
   UNUSED(defender_spy);
-  if (first_round) {
+  if (first_attacker_round) {
     set_initial_attacker_position(attacker_position);
     set_field_height();
-    first_round = false
+    first_attacker_round = false;
   }
 
-  // TODO: Implement Attacker logic here
-  return (direction_t) DIR_RIGHT;
+  if (attacker_position.i == 1) {
+    return (direction_t) DIR_RIGHT;
+  }
+  return (direction_t) DIR_UP_RIGHT;
 }
 
 /*----------------------------------------------------------------------------*/
