@@ -13,6 +13,20 @@
 #define UNUSED(x) (void)(x) // Auxiliary to avoid error of unused parameter
 
 /*----------------------------------------------------------------------------*/
+/*                          PRIVATE FUNCTIONS HEADERS                         */
+/*----------------------------------------------------------------------------*/
+
+position_t get_attacker_position_hack(Spy attacker_spy);
+
+/*----------------------------------------------------------------------------*/
+/*                              PRIVATE VARIABLES                             */
+/*----------------------------------------------------------------------------*/
+
+bool first_defender_round = true;
+
+position_t last_position;
+
+/*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
 
@@ -26,4 +40,14 @@ direction_t execute_defender_strategy(
   return (direction_t) DIR_LEFT;
 }
 
+/*----------------------------------------------------------------------------*/
+/*                             PRIVATE FUNCTIONS                              */
+/*----------------------------------------------------------------------------*/
+
+position_t get_attacker_position_hack(Spy attacker_spy) {
+  if (attacker_spy == NULL) return (position_t) { 0, 0 };
+  
+  Item attacker_item = (Item) (*(long int*)attacker_spy);
+  return get_item_position(attacker_item);
+}
 /*----------------------------------------------------------------------------*/
