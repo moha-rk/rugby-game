@@ -13,17 +13,46 @@
 #define UNUSED(x) (void)(x) // Auxiliary to avoid error of unused parameter
 
 /*----------------------------------------------------------------------------*/
+/*                          PRIVATE FUNCTIONS HEADERS                         */
+/*----------------------------------------------------------------------------*/
+
+void set_initial_attacker_position(position_t attacker_position);
+void set_field_height();
+
+/*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
 
+position_t initial_attacker_position = {0, 0};
+size_t field_height = 0;
+
+bool first_round = true;
+
 direction_t execute_attacker_strategy(
     position_t attacker_position, Spy defender_spy) {
-  // TODO: unused parameters, remove these lines later
-  UNUSED(attacker_position);
+  // TODO: unused parameter, remove this line later
   UNUSED(defender_spy);
+  if (first_round) {
+    set_initial_attacker_position(attacker_position);
+    set_field_height();
+    first_round = false
+  }
 
   // TODO: Implement Attacker logic here
   return (direction_t) DIR_RIGHT;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                             PRIVATE FUNCTIONS                              */
+/*----------------------------------------------------------------------------*/
+
+void set_initial_attacker_position(position_t attacker_position) {
+  initial_attacker_position.i = attacker_position.i;
+  initial_attacker_position.j = attacker_position.j;
+}
+
+void set_field_height() {
+  field_height = initial_attacker_position.i*2;
 }
 
 /*----------------------------------------------------------------------------*/
