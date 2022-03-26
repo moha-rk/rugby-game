@@ -18,19 +18,7 @@
 
 position_t get_defender_position_hack(Spy defender_spy);
 
-void set_initial_attacker_position(position_t attacker_position);
-void set_field_height();
-
-bool will_move_hit_wall(direction_t dir, position_t attacker_position);
-
-/*----------------------------------------------------------------------------*/
-/*                              PRIVATE VARIABLES                             */
-/*----------------------------------------------------------------------------*/
-
-position_t initial_attacker_position = {0, 0};
-size_t field_height = 0;
-
-bool first_attacker_round = true;
+bool will_move_hit_wall(direction_t dir, position_t attacker_position, size_t field_height);
 
 /*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
@@ -40,16 +28,21 @@ direction_t execute_attacker_strategy(
     position_t attacker_position, Spy defender_spy) {
   // TODO: unused parameter, remove this line later
   UNUSED(defender_spy);
-  if (first_attacker_round) {
-    set_initial_attacker_position(attacker_position);
-    set_field_height();
-    first_attacker_round = false;
+
+  // Function state
+  static position_t initial_attacker_position = INVALID_POSITION;
+  static size_t field_height = 0;
+
+  if (equal_positions(initial_attacker_position, (position_t) INVALID_POSITION)) {
+    initial_attacker_position = attacker_position;
+    field_height = initial_attacker_position.i*2;
   }
 
-  if (attacker_position.i == 1) {
-    return (direction_t) DIR_RIGHT;
+  direction_t next_move = (direction_t) DIR_UP_RIGHT;
+  if (will_move_hit_wall(next_move, attacker_position, field_height)) {
+    next_move = (direction_t) DIR_RIGHT;
   }
-  return (direction_t) DIR_UP_RIGHT;
+  return next_move;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -63,16 +56,7 @@ position_t get_defender_position_hack(Spy defender_spy) {
   return get_item_position(defender_item);
 }
 
-void set_initial_attacker_position(position_t attacker_position) {
-  initial_attacker_position.i = attacker_position.i;
-  initial_attacker_position.j = attacker_position.j;
-}
-
-void set_field_height() {
-  field_height = initial_attacker_position.i*2;
-}
-
-bool will_move_hit_wall(direction_t dir, position_t attacker_position) {
+bool will_move_hit_wall(direction_t dir, position_t attacker_position, size_t field_height) {
   // Check if move will hit upper or lower walls
   size_t new_i = attacker_position.i + dir.i;
   if (new_i >= field_height || new_i <= 0) return true;

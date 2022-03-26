@@ -29,23 +29,17 @@ bool tried_to_move(direction_t move);
 size_t difference_between_positions(size_t s1, size_t s2);
 
 /*----------------------------------------------------------------------------*/
-/*                              PRIVATE VARIABLES                             */
-/*----------------------------------------------------------------------------*/
-
-bool first_defender_round = true;
-
-direction_t last_move = DIR_STAY;
-position_t last_position;
-
-/*----------------------------------------------------------------------------*/
 /*                              PUBLIC FUNCTIONS                              */
 /*----------------------------------------------------------------------------*/
 
 direction_t execute_defender_strategy(
     position_t defender_position, Spy attacker_spy) {
-  if (first_defender_round) {
+  // Function state
+  static direction_t last_move = DIR_STAY;
+  static position_t last_position = INVALID_POSITION;
+
+  if (equal_positions(last_position, defender_position)) {
     last_position = defender_position;
-    first_defender_round = false;
   }
   position_t hack_attacker_position = get_attacker_position_hack(attacker_spy);
   direction_t next_move = 
